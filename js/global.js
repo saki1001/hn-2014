@@ -664,6 +664,8 @@ $(document).ready(function () {
 }).call(this);
 
 
+// Created access token 11/15/2014
+// via villa_straylight developer
 var userFeed = new Instafeed({
     target: 'the-feed',
     resolution: 'low_resolution',
@@ -672,7 +674,7 @@ var userFeed = new Instafeed({
     sortBy: 'most-recent',
     links: true,
     limit: 5,
-    accessToken: '413554423.dffe6c0.07f5852d05c4476ba85d982879ee7c23',
+    accessToken: '241752290.1af335d.b911bb0d739f4214a51f53c98044a2d3',
     template: '<li><a href="{{link}}" target="_blank"><img src="{{image}}"></a></li>'
 });
 userFeed.run();
