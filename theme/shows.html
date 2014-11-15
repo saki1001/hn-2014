@@ -1,0 +1,16 @@
+<p><script>
+$.ajax({
+    type: 'GET',
+    url: "http://hardnips.blackdaycreative.com/fb-events/json.php",
+    async: false,
+    jsonpCallback: 'jsonCallback',
+    contentType: "application/json",
+    dataType: 'jsonp',
+    success: function(json) {
+        $('#tourdates').append(json.content);
+    },
+    error: function(e) {
+        console.log(e.message);
+    }
+});
+</script></p><div id="tourdates"></div>
