@@ -45,7 +45,9 @@ FacebookSession::setDefaultApplication( '1428096120773288','2fd26674a216fa59e76f
 
 // If you already have a valid access token:
 // HardNips access token
-$session = new FacebookSession('CAACEdEose0cBANwYRr3uVzolZC50UJMkI8aHxrl3IwOmZC3F3eS3QZCR4LxqYyHuTeM8KJJDcZB4LiSnlDQZC45IKFI1fdadXO7JH8hyLnxuvfflfoq13ZB55fVvTgXHlo6MvBzw1c2gurZBLV52HrqH4ZA5ZAZAshhuA37mZCDso6EwoAZCZCB8xZCEK9ZA3cQMX7n0n1yGIZCVv8wxMtfFvyV8TI4O');
+// $session = new FacebookSession('CAACEdEose0cBANwYRr3uVzolZC50UJMkI8aHxrl3IwOmZC3F3eS3QZCR4LxqYyHuTeM8KJJDcZB4LiSnlDQZC45IKFI1fdadXO7JH8hyLnxuvfflfoq13ZB55fVvTgXHlo6MvBzw1c2gurZBLV52HrqH4ZA5ZAZAshhuA37mZCDso6EwoAZCZCB8xZCEK9ZA3cQMX7n0n1yGIZCVv8wxMtfFvyV8TI4O');
+// Hard Nips App access token
+$session = new FacebookSession('CAACEdEose0cBALqGARYMv7R0Ta0FmAzYnxfaMg4TLkt06mvG8Dz1ODLssg6sMaDIHSR9CxP2Pg0MXZB5vosAHdackhGyfhjjLNRulUkyrfReaLBoH44vVlOT43R8X3e9fXPSDfojzaAbYWm4dhismFf9fQ57v4HdqhqqvkQ5JFthjijQYb4h2NYhW730E0Ifj7GWITEwuMkdyRWbxIU54hBvJZCIgZD');
 
 // // login helper with redirect_uri
 // $helper = new FacebookRedirectLoginHelper( 'http://hardnipsbrooklyn.com/' );
