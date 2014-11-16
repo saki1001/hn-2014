@@ -1,41 +1,132 @@
 <?php
-//requiring FB PHP SDK
-require 'fb-sdk/src/facebook.php';
 
-// //initializing keys
-// // Hard Nips Website
-// // App ID created 11/15/2014
-// $facebook = new Facebook(array(
-//   'appId'  => '1428096120773288',
-//   'secret' => '2fd26674a216fa59e76fa759f3ddd708',
-//   'cookie' => true // enable optional cookie support
-// ));
-//
-// //query the events
-// //currently selecting name, start_time, end_time, location, description this time
-// //but there's other data that you can get from the event table (https://developers.facebook.com/docs/reference/fql/event/)
-// $fql    =   "SELECT eid, name, start_time, end_time, location, description
-//       FROM event WHERE eid IN ( SELECT eid FROM event_member WHERE uid = 204470146095 ) AND start_time >= now()
-//       ORDER BY start_time asc"; // add LIMIT 0,3"; to only display 3 events
-//
-// $param  =   array(
-// 'method'    => 'fql.query',
-// 'query'     => $fql,
-// 'callback'  => ''
-// );
-//
-// $fqlResult   =   $facebook->api($param);
-
-/* make the API call */
-FB.api(
-    "/204470146095/events",
-    function (response) {
-      console.log(response);
-      if (response && !response.error) {
-        /* handle the result */
-      }
+// include required files form Facebook SDK 
+require_once( 'Facebook/HttpClients/FacebookHttpable.php' );
+require_once( 'Facebook/HttpClients/FacebookCurl.php' );
+require_once( 'Facebook/HttpClients/FacebookCurlHttpClient.php' );
+ 
+require_once( 'Facebook/Entities/AccessToken.php' );
+require_once( 'Facebook/Entities/SignedRequest.php' );
+ 
+require_once( 'Facebook/FacebookSession.php' );
+require_once( 'Facebook/FacebookRedirectLoginHelper.php' );
+require_once( 'Facebook/FacebookRequest.php' );
+require_once( 'Facebook/FacebookResponse.php' );
+require_once( 'Facebook/FacebookSDKException.php' );
+require_once( 'Facebook/FacebookRequestException.php' );
+require_once( 'Facebook/FacebookOtherException.php' );
+require_once( 'Facebook/FacebookAuthorizationException.php' );
+require_once( 'Facebook/GraphObject.php' );
+require_once( 'Facebook/GraphSessionInfo.php' );
+ 
+use Facebook\HttpClients\FacebookHttpable;
+use Facebook\HttpClients\FacebookCurl;
+use Facebook\HttpClients\FacebookCurlHttpClient;
+ 
+use Facebook\Entities\AccessToken;
+use Facebook\Entities\SignedRequest;
+ 
+use Facebook\FacebookSession;
+use Facebook\FacebookRedirectLoginHelper;
+use Facebook\FacebookRequest;
+use Facebook\FacebookResponse;
+use Facebook\FacebookSDKException;
+use Facebook\FacebookRequestException;
+use Facebook\FacebookOtherException;
+use Facebook\FacebookAuthorizationException;
+use Facebook\GraphObject;
+use Facebook\GraphSessionInfo;
+ 
+// start session
+session_start();
+ 
+// init app with app id and secret
+FacebookSession::setDefaultApplication( '1428096120773288','2fd26674a216fa59e76fa759f3ddd708' );
+ 
+// login helper with redirect_uri
+$helper = new FacebookRedirectLoginHelper( 'http://hardnipsbrooklyn.com/' );
+ 
+// see if a existing session exists
+if ( isset( $_SESSION ) && isset( $_SESSION['fb_token'] ) ) {
+  // create new session from saved access_token
+  $session = new FacebookSession( $_SESSION['fb_token'] );
+  
+  // validate the access_token to make sure it's still valid
+  try {
+    if ( !$session->validate() ) {
+      $session = null;
     }
-);
+  } catch ( Exception $e ) {
+    // catch any exceptions
+    $session = null;
+  }
+}  
+ 
+if ( !isset( $session ) || $session === null ) {
+  // no session exists
+  
+  try {
+    $session = $helper->getSessionFromRedirect();
+  } catch( FacebookRequestException $ex ) {
+    // When Facebook returns an error
+    // handle this better in production code
+    print_r( $ex );
+  } catch( Exception $ex ) {
+    // When validation fails or other local issues
+    // handle this better in production code
+    print_r( $ex );
+  }
+  
+}
+ 
+// see if we have a session
+if ( isset( $session ) ) {
+  
+  // save the session
+  $_SESSION['fb_token'] = $session->getToken();
+  // create a session using saved token or the new one we generated at login
+  $session = new FacebookSession( $session->getToken() );
+  
+  // graph api request for user data
+  $request = new FacebookRequest( $session, 'GET', '/me' );
+  $response = $request->execute();
+  // get response
+  $graphObject = $response->getGraphObject()->asArray();
+  
+  // print profile data
+  echo '<pre>' . print_r( $graphObject, 1 ) . '</pre>';
+  
+  // print logout url using session and redirect_uri (logout.php page should destroy the session)
+  echo '<a href="' . $helper->getLogoutUrl( $session, 'http://yourwebsite.com/app/logout.php' ) . '">Logout</a>';
+  
+} else {
+  // show login url
+  echo '<a href="' . $helper->getLoginUrl( array( 'email', 'user_friends' ) ) . '">Login</a>';
+}
+
+// Using SDK 
+use Facebook\FacebookRequest;
+use Facebook\GraphUser;
+use Facebook\FacebookRequestException;
+
+if($session) {
+
+  try {
+
+    $user_profile = (new FacebookRequest(
+      $session, 'GET', '/204470146095'
+    ))->execute()->getGraphObject(GraphUser::className());
+
+    echo "Name: " . $user_profile->getName();
+
+  } catch(FacebookRequestException $e) {
+
+    echo "Exception occured, code: " . $e->getCode();
+    echo " with message: " . $e->getMessage();
+
+  }   
+
+}
 
 $fqlResult = '';
 
