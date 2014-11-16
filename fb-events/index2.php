@@ -104,30 +104,42 @@ if ( isset( $session ) ) {
   echo '<a href="' . $helper->getLoginUrl( array( 'email', 'user_friends' ) ) . '">Login</a>';
 }
 
-// Using SDK 
-// use Facebook\FacebookRequest;
-// use Facebook\FacebookRequestException;
-use Facebook\GraphUser;
-
-
+// // Using SDK
+// // use Facebook\FacebookRequest;
+// // use Facebook\FacebookRequestException;
+// use Facebook\GraphUser;
+//
+//
 if($session) {
 
   try {
 
     $user_profile = (new FacebookRequest(
-      $session, 'GET', '/204470146095'
-    ))->execute()->getGraphObject(GraphUser::className());
+      $session, 'GET', '/204470146095/events'
+    ))->execute()->getGraphObject();
 
-    echo "Name: " . $user_profile->getName();
+    // echo "Name: " . $user_profile->getName();
+    echo 'test' . $user_events;
 
   } catch(FacebookRequestException $e) {
 
     echo "Exception occured, code: " . $e->getCode();
     echo " with message: " . $e->getMessage();
 
-  }   
+  }
 
 }
+
+//  PHP SDK v4.0.0 */
+// /* make the API call */
+// $request = new FacebookRequest(
+//   $session,
+//   'GET',
+//   '/204470146095/events'
+// );
+// $response = $request->execute();
+// $graphObject = $response->getGraphObject();
+
 
 $fqlResult = '';
 
