@@ -120,7 +120,7 @@ if($session) {
 
   try {
 
-    $user_profile = (new FacebookRequest(
+    $user_events = (new FacebookRequest(
       $session, 'GET', '/204470146095/events'
     ))->execute()->getGraphObject();
 
