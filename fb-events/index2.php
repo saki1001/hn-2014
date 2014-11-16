@@ -105,8 +105,10 @@ if ( isset( $session ) ) {
 }
 
 // Using SDK 
+// use Facebook\FacebookRequest;
+// use Facebook\FacebookRequestException;
 use Facebook\GraphUser;
-use Facebook\FacebookRequestException;
+
 
 if($session) {
 
