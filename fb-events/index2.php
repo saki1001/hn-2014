@@ -45,7 +45,6 @@ session_start();
 // Hard Nips account App
 FacebookSession::setDefaultApplication( '160660020686','699ec8b7822b68cea5c4260ba32abaf9' );
 
-
 // If you already have a valid access token:
 // Hard Nips App (via personal access)
 $session = new FacebookSession('CAAAAJWgVXc4BAPG2gH9R1C26fEoZCVmblKLB6Xj182mjzJWbT2j7lNIQ5955SYqEdn9I2aJQBHk5KZBXf8EIgBHNaL89WvayFZC3ZAGSf6vZBklllmKC6uCzNkAH75GXwRPDXg05iLv06fZCumYGMrfYiM1odpKiHGtySTZAHjh44GHI2FPl5u8ZAgifm7s6z8YTEvrpjcg01JtcT0mIizx8');
@@ -57,9 +56,9 @@ $session = new FacebookSession('CAAAAJWgVXc4BAPG2gH9R1C26fEoZCVmblKLB6Xj182mjzJW
   // get response
   $graphObject = $response->getGraphObject()->asArray();
 
-// // login helper with redirect_uri
-// $helper = new FacebookRedirectLoginHelper( 'http://hardnipsbrooklyn.com/' );
-//
+// login helper with redirect_uri
+$helper = new FacebookRedirectLoginHelper( 'http://hardnipsbrooklyn.com/' );
+
 // see if a existing session exists
 if ( isset( $_SESSION ) && isset( $_SESSION['fb_token'] ) ) {
   // create new session from saved access_token
@@ -119,27 +118,6 @@ if ( isset( $session ) ) {
   echo 'Error: No token.';
   // echo '<a href="' . $helper->getLoginUrl( array( 'email', 'user_friends' ) ) . '">Login</a>';
 }
-
-// if($session) {
-//
-//   try {
-//
-//     $user_events = (new FacebookRequest(
-//       $session, 'GET', '/204470146095/events'
-//     ))->execute()->getGraphObject();
-//
-//     // echo "Name: " . $user_profile->getName();
-//     echo 'test';
-//     print_r($user_events);
-//
-//   } catch(FacebookRequestException $e) {
-//
-//     echo "Exception occured, code: " . $e->getCode();
-//     echo " with message: " . $e->getMessage();
-//
-//   }
-//
-// }
 
 
 $fqlResult = $data;
