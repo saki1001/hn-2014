@@ -47,110 +47,102 @@ FacebookSession::setDefaultApplication( '160660020686','699ec8b7822b68cea5c4260b
 
 
 // If you already have a valid access token:
-// HardNips access token
-// $session = new FacebookSession('CAACEdEose0cBANwYRr3uVzolZC50UJMkI8aHxrl3IwOmZC3F3eS3QZCR4LxqYyHuTeM8KJJDcZB4LiSnlDQZC45IKFI1fdadXO7JH8hyLnxuvfflfoq13ZB55fVvTgXHlo6MvBzw1c2gurZBLV52HrqH4ZA5ZAZAshhuA37mZCDso6EwoAZCZCB8xZCEK9ZA3cQMX7n0n1yGIZCVv8wxMtfFvyV8TI4O');
-// Hard Nips App access token
-$session = new FacebookSession('CAACEdEose0cBAFB9WsZBXZAiL3Wa90kFACLZCeooSxdnyb8RLyl7eH28o51Wl1vC7eTfiPnge9f8h3BZBrZA9RZAAV9rwSqms0aGHCFQTH0uVYBFX2ObPZCiACYHI5MCvUwCx1WIlGq3bwR925nCjxYkNOR71s86hdB9WOTJp4fGSD9qYIIPZCIBoyYtKRR8Wie696W9zxsHVpa5dDpNeFfU');
+// Hard Nips App (via personal access)
+$session = new FacebookSession('CAAAAJWgVXc4BAPG2gH9R1C26fEoZCVmblKLB6Xj182mjzJWbT2j7lNIQ5955SYqEdn9I2aJQBHk5KZBXf8EIgBHNaL89WvayFZC3ZAGSf6vZBklllmKC6uCzNkAH75GXwRPDXg05iLv06fZCumYGMrfYiM1odpKiHGtySTZAHjh44GHI2FPl5u8ZAgifm7s6z8YTEvrpjcg01JtcT0mIizx8');
+
+// Get access token
+  // graph api request for user data
+  $request = new FacebookRequest( $session, 'GET', '/me' );
+  $response = $request->execute();
+  // get response
+  $graphObject = $response->getGraphObject()->asArray();
 
 // // login helper with redirect_uri
 // $helper = new FacebookRedirectLoginHelper( 'http://hardnipsbrooklyn.com/' );
 //
-// // see if a existing session exists
-// if ( isset( $_SESSION ) && isset( $_SESSION['fb_token'] ) ) {
-//   // create new session from saved access_token
-//   $session = new FacebookSession( $_SESSION['fb_token'] );
-//
-//   // validate the access_token to make sure it's still valid
-//   try {
-//     if ( !$session->validate() ) {
-//       $session = null;
-//     }
-//   } catch ( Exception $e ) {
-//     // catch any exceptions
-//     $session = null;
-//   }
-// }
-//
-// if ( !isset( $session ) || $session === null ) {
-//   // no session exists
-//
-//   try {
-//     $session = $helper->getSessionFromRedirect();
-//   } catch( FacebookRequestException $ex ) {
-//     // When Facebook returns an error
-//     // handle this better in production code
-//     print_r( $ex );
-//   } catch( Exception $ex ) {
-//     // When validation fails or other local issues
-//     // handle this better in production code
-//     print_r( $ex );
-//   }
-//
-// }
-//
-// // see if we have a session
-// if ( isset( $session ) ) {
-//
-//   // save the session
-//   $_SESSION['fb_token'] = $session->getToken();
-//   // create a session using saved token or the new one we generated at login
-//   $session = new FacebookSession( $session->getToken() );
-//
-//   // graph api request for user data
-//   $request = new FacebookRequest( $session, 'GET', '/me' );
-//   $response = $request->execute();
-//   // get response
-//   $graphObject = $response->getGraphObject()->asArray();
-//
-//   // print profile data
-//   echo '<pre>' . print_r( $graphObject, 1 ) . '</pre>';
-//
-//   // print logout url using session and redirect_uri (logout.php page should destroy the session)
-//   echo '<a href="' . $helper->getLogoutUrl( $session, 'http://yourwebsite.com/app/logout.php' ) . '">Logout</a>';
-//
-// } else {
-//   // show login url
-//   echo '<a href="' . $helper->getLoginUrl( array( 'email', 'user_friends' ) ) . '">Login</a>';
-// }
+// see if a existing session exists
+if ( isset( $_SESSION ) && isset( $_SESSION['fb_token'] ) ) {
+  // create new session from saved access_token
+  $session = new FacebookSession( $_SESSION['fb_token'] );
 
-// // Using SDK
-// // use Facebook\FacebookRequest;
-// // use Facebook\FacebookRequestException;
-// use Facebook\GraphUser;
-//
-//
-if($session) {
+  // validate the access_token to make sure it's still valid
+  try {
+    if ( !$session->validate() ) {
+      $session = null;
+    }
+  } catch ( Exception $e ) {
+    // catch any exceptions
+    $session = null;
+  }
+}
+
+if ( !isset( $session ) || $session === null ) {
+  // no session exists
 
   try {
-
-    $user_events = (new FacebookRequest(
-      $session, 'GET', '/204470146095/events'
-    ))->execute()->getGraphObject();
-
-    // echo "Name: " . $user_profile->getName();
-    echo 'test' . $user_events;
-
-  } catch(FacebookRequestException $e) {
-
-    echo "Exception occured, code: " . $e->getCode();
-    echo " with message: " . $e->getMessage();
-
+    $session = $helper->getSessionFromRedirect();
+  } catch( FacebookRequestException $ex ) {
+    // When Facebook returns an error
+    // handle this better in production code
+    print_r( $ex );
+  } catch( Exception $ex ) {
+    // When validation fails or other local issues
+    // handle this better in production code
+    print_r( $ex );
   }
 
 }
 
-//  PHP SDK v4.0.0 */
-// /* make the API call */
-// $request = new FacebookRequest(
-//   $session,
-//   'GET',
-//   '/204470146095/events'
-// );
-// $response = $request->execute();
-// $graphObject = $response->getGraphObject();
+// see if we have a session
+if ( isset( $session ) ) {
+
+  // save the session
+  $_SESSION['fb_token'] = $session->getToken();
+  // create a session using saved token or the new one we generated at login
+  $session = new FacebookSession( $session->getToken() );
+
+  // graph api request for user data
+  $request = new FacebookRequest( $session, 'GET', '/204470146095/events' );
+  $response = $request->execute();
+  // get response
+  $graphObject = $response->getGraphObject()->asArray();
+
+  // print profile data
+  // print_r( $graphObject['data']);
+  $data = $graphObject['data'];
+
+  // print logout url using session and redirect_uri (logout.php page should destroy the session)
+  // echo '<a href="' . $helper->getLogoutUrl( $session, 'http://yourwebsite.com/app/logout.php' ) . '">Logout</a>';
+
+} else {
+  // show login url
+  echo 'Error: No token.';
+  // echo '<a href="' . $helper->getLoginUrl( array( 'email', 'user_friends' ) ) . '">Login</a>';
+}
+
+// if($session) {
+//
+//   try {
+//
+//     $user_events = (new FacebookRequest(
+//       $session, 'GET', '/204470146095/events'
+//     ))->execute()->getGraphObject();
+//
+//     // echo "Name: " . $user_profile->getName();
+//     echo 'test';
+//     print_r($user_events);
+//
+//   } catch(FacebookRequestException $e) {
+//
+//     echo "Exception occured, code: " . $e->getCode();
+//     echo " with message: " . $e->getMessage();
+//
+//   }
+//
+// }
 
 
-$fqlResult = '';
+$fqlResult = $data;
 
 if(empty($fqlResult)) {
 	echo "<p></p>";	
@@ -159,37 +151,37 @@ if(empty($fqlResult)) {
 //looping through retrieved data
 else {
 
-	foreach( $fqlResult as $keys => $values ){
+  foreach( $fqlResult as $keys => $values ){
 
-	//getting 'start' and 'end' date,
-	$start_date = date ( 'M d', strtotime($values['start_time']) );
-	$end_date = date ( 'M d', strtotime($values['end_time']) );
+  	//getting 'start' and 'end' date,
+  	$start_date = date ( 'M d', strtotime($values->start_time) );
+  	$end_date = date ( 'M d', strtotime($values->end_time) );
 	
-	// Added the new date structure using strtotime above ^ when all the dates started displaying as Dec 31 1969
-	// replacing these two lines... 
-	//$start_date = date ( 'M d Y', $values [ 'start_time' ] );
-	//$end_date = date ( 'M d Y', $values [ 'end_time' ] );
+  	// Added the new date structure using strtotime above ^ when all the dates started displaying as Dec 31 1969
+  	// replacing these two lines... 
+  	//$start_date = date ( 'M d Y', $values [ 'start_time' ] );
+  	//$end_date = date ( 'M d Y', $values [ 'end_time' ] );
 
-	//printing the data
-		echo "<li>";
+  	//printing the data
+  		echo "<li>";
 
-		if( $start_date == $end_date ){
-			//if $start_date and $end_date is the same
-			//it means the event will happen on the same day
-			echo "<span class='date'>{$start_date} </span>";
-		}
+  		if( $start_date == $end_date ){
+  			//if $start_date and $end_date is the same
+  			//it means the event will happen on the same day
+  			echo "<span class='date'>{$start_date} </span>";
+  		}
 		
-		else{
-			//else if $start_date and $end_date is NOT the equal
-			//it means that the event will be
-			//extended to another day
-			// I removed this and added the next line: echo "<span>{$start_date} to {$end_date}</span>";
-			echo "<span class='date'>{$start_date} </span>";
-		}
+  		else{
+  			//else if $start_date and $end_date is NOT the equal
+  			//it means that the event will be
+  			//extended to another day
+  			// I removed this and added the next line: echo "<span>{$start_date} to {$end_date}</span>";
+  			echo "<span class='date'>{$start_date} </span>";
+  		}
 
-		echo "<span class='details'>{$values['name']}</span>";
-		// echo "<p class='note'>" . $values['description'] . "</p>";
-	echo "</li>";
-}
+  		echo "<span class='details'>{$values->name}</span>";
+  		// echo "<p class='note'>" . $values['description'] . "</p>";
+  	echo "</li>";
+  }
 }
 ?>
