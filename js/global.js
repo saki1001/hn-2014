@@ -122,21 +122,21 @@ $('#read-blog a').click(function () {
 
 /* Continue to site CTA
 ------------------------------------------------------------------------------------------*/
-$(document).ready(function() {
-$('.cta').click(function () {
-      $('#promo').toggleClass('continue');
-      return false;
-    });
+//$(document).ready(function() {
+//$('.cta').click(function () {
+//      $('#promo').toggleClass('continue');
+//      return false;
+//    });
 
-$(".cta").click(function () {
-setTimeout(function (){
-    $('body#blog').toggleClass('continue');
-    return false;
-}, 50);
-});
+//$(".cta").click(function () {
+//setTimeout(function (){
+//    $('body#blog').toggleClass('continue');
+//    return false;
+//}, 50);
+//});
 
 
-});
+//});
 
 
 
